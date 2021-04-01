@@ -1,2 +1,2 @@
 # CaltransCalculator
- Calcultor 
+ Calculator 
