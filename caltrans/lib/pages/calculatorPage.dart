@@ -21,6 +21,7 @@ class CalculatorPageState extends State<CalculatorPage> {
         controller: nameFieldController,
         decoration: buildDecoration("Your Project Name:"),
         keyboardType: TextInputType.name,
+        
       ),
     );
   }
