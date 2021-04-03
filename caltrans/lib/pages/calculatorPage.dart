@@ -130,6 +130,7 @@ class CalculatorPageState extends State<CalculatorPage> {
     weightMulchValue = 0;
     mixingRateValue = 0;
     capacityTankValue = 0;
+  
   }
   void updateTotalSize(int value){
     setState(() {
@@ -177,14 +178,7 @@ class CalculatorPageState extends State<CalculatorPage> {
           SizedBox(
             width: 15.0,
           ),
-          // Expanded(
-          //   child: Column(
-          //     children: <Widget>[
-          //       Text(_messageToUser, textAlign: TextAlign.center),
-          //       _resultImage ?? SizedBox(),
-          //     ],
-          //   ),
-          // ),
+
         ],
       ),
     );
