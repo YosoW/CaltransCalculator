@@ -7,13 +7,21 @@ class AccountPage extends StatefulWidget{
 }
 
 class AccountPageState extends State<AccountPage> {
+  
   @override
   Widget build(BuildContext context){
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Account Page'),
-      ),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Account Page'),
+        ),
 
+        body: Column(
+          children: [
+
+          ],
+        ),
+      ), 
     );
   }
 }

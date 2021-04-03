@@ -27,7 +27,8 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context){
-    return Scaffold(
+    return MaterialApp(
+    home: Scaffold(
       body: 
       PageView(
         controller: pageController,
@@ -35,20 +36,20 @@ class HomePageState extends State<HomePage> {
         onPageChanged: onPageChanged,
         physics: NeverScrollableScrollPhysics(),
       ),
-      
+        
       bottomNavigationBar: BottomNavigationBar(
         onTap: itemTapped,
         items: [
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
-              color: selectedIndex == 0 ? Colors.blue : Colors.grey,
+              color: selectedIndex == 0 ? Colors.amber[400] : Colors.grey,
             ), 
             // ignore: deprecated_member_use
             title: Text(
               'Home',
               style: TextStyle(
-                color: selectedIndex == 0 ? Colors.blue : Colors.grey,
+                color: selectedIndex == 0 ? Colors.amber[400] : Colors.grey,
               ),
             ),
           ),
@@ -56,13 +57,13 @@ class HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.save,
-                color: selectedIndex == 1 ? Colors.blue : Colors.grey,
+                color: selectedIndex == 1 ? Colors.amber[400] : Colors.grey,
               ),
             // ignore: deprecated_member_use
             title: Text(
               'Saved',
               style: TextStyle(
-                color: selectedIndex == 1 ? Colors.blue : Colors.grey,
+                color: selectedIndex == 1 ? Colors.amber[400] : Colors.grey,
               ),
             ),
           ),
@@ -70,21 +71,19 @@ class HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
-                color: selectedIndex == 2 ? Colors.blue : Colors.grey,
+                color: selectedIndex == 2 ? Colors.amber[400] : Colors.grey,
               ),
             // ignore: deprecated_member_use
             title: Text(
               'Account',
               style: TextStyle(
-                color: selectedIndex == 2 ? Colors.blue : Colors.grey,
+                color: selectedIndex == 2 ? Colors.amber[400] : Colors.grey,
               ),  
             ),
           )
         ],
       ),
-      // Center(child: 
-      //   Text('Welcome! Navigate below to create a new project or continue working on existing.')
-      // )
+    ),
     );
   }
 }
