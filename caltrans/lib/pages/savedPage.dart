@@ -26,7 +26,6 @@ class SavedPageState extends State<SavedPage> {
           children: [
             Text("..."),
           ],
-
         ),
     );
   }

@@ -21,7 +21,7 @@ class CalculatorPageState extends State<CalculatorPage> {
         controller: nameFieldController,
         decoration: buildDecoration("Your Project Name:"),
         keyboardType: TextInputType.name,
-        
+
       ),
     );
   }
@@ -179,7 +179,6 @@ class CalculatorPageState extends State<CalculatorPage> {
           SizedBox(
             width: 15.0,
           ),
-
         ],
       ),
     );
