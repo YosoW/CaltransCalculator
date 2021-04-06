@@ -1,31 +1,172 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 
 class SavedPage extends StatefulWidget{
-  // String projectName;
-  // SavedPage({Key key, @required this.projectName}) : super(key: key);
-
-  // @override 
-  // SavedPageState createState() => SavedPageState(projectName);
   @override 
   SavedPageState createState() => SavedPageState();
 } 
  
 class SavedPageState extends State<SavedPage> {
-  // String projectName;
-  // SavedPageState(this.projectName);
+
+  
+  Query _reference;
+  DatabaseReference reference = FirebaseDatabase.instance.reference().child("Projects");
+    @override
+  void initState(){
+    super.initState();
+    _reference = FirebaseDatabase.instance.reference().child("Projects").orderByChild("nameOfProject");
+  }
+  Widget buildProjectItem({Map projects}) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      padding: EdgeInsets.all(10),
+      height: 130,
+      color: Colors.white,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              // Icon(
+              //   Icons.person,
+              //   color: Theme.of(context).primaryColor,
+              //   size: 20,
+              // ),
+              // SizedBox(
+              //   width: 6,
+              // ),
+              Text(
+                projects['nameOfProject'],
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              // Icon(
+              //   Icons.phone_iphone,
+              //   color: Theme.of(context).accentColor,
+              //   size: 20,
+              // ),
+              SizedBox(
+                width: 6,
+              ),
+              Text(
+                projects['mulchRateValue'],
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).accentColor,
+                    fontWeight: FontWeight.w600),
+              ),
+              SizedBox(width: 15),
+              // Icon(
+              //   Icons.group_work,
+              //   size: 20,
+              // ),
+              SizedBox(
+                width: 6,
+              ),
+              Text(
+                projects['weightMulchValue'],
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   children: [
+          //     GestureDetector(
+          //       onTap: () {
+          //         Navigator.push(
+          //             context,
+          //             MaterialPageRoute(
+          //                 builder: (_) => EditContact(
+          //                       contactKey: contact['key'],
+          //                     )));
+          //       },
+          //       child: Row(
+          //         children: [
+          //           Icon(
+          //             Icons.edit,
+          //             color: Theme.of(context).primaryColor,
+          //           ),
+          //           SizedBox(
+          //             width: 6,
+          //           ),
+          //           Text('Edit',
+          //               style: TextStyle(
+          //                   fontSize: 16,
+          //                   color: Theme.of(context).primaryColor,
+          //                   fontWeight: FontWeight.w600)),
+          //         ],
+          //       ),
+          //     ),
+          //     SizedBox(
+          //       width: 20,
+          //     ),
+          //     // GestureDetector(
+          //     //   onTap: () {
+          //     //     _showDeleteDialog(contact: contact);
+          //     //   },
+          //     //   child: Row(
+          //     //     children: [
+          //     //       Icon(
+          //     //         Icons.delete,
+          //     //         color: Colors.red[700],
+          //     //       ),
+          //     //       SizedBox(
+          //     //         width: 6,
+          //     //       ),
+          //     //       Text('Delete',
+          //     //           style: TextStyle(
+          //     //               fontSize: 16,
+          //     //               color: Colors.red[700],
+          //     //               fontWeight: FontWeight.w600)),
+          //     //     ],
+          //     //   ),
+          //     // ),
+          //     SizedBox(
+          //       width: 20,
+          //     ),
+          //   ],
+          // )
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context){
     return Scaffold(
         appBar: AppBar(
-          title: Text('Saved Projects Page'),
+          title: Text('Saved Projects'),
         ),
-
         body:
-         Column(
-          children: [
-            Text("..."),
-          ],
+         Container(
+          height: double.infinity,
+           child: FirebaseAnimatedList(
+             query: _reference,
+             itemBuilder: (BuildContext context, DataSnapshot snapshot,
+             Animation<double> animation, int index){
+               Map project = snapshot.value;
+               project['key'] = snapshot.key;
+               return buildProjectItem(projects: project);
+             }
+
+           ),
         ),
     );
   }

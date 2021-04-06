@@ -1,4 +1,4 @@
-import 'package:caltrans/pages/savedPage.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class CalculatorPage extends StatefulWidget{
@@ -8,11 +8,12 @@ class CalculatorPage extends StatefulWidget{
 }
 
 class CalculatorPageState extends State<CalculatorPage> {
-  TextEditingController nameFieldController; 
-  int totalSizeValue,
+
+  DatabaseReference _reference;
+
+  TextEditingController nameFieldController, totalSizeValue,
   mulchRateValue, weightMulchValue, mixingRateValue, 
   capacityTankValue;
-
 
   Widget buildNameTextField(){
     return Container(
@@ -21,7 +22,6 @@ class CalculatorPageState extends State<CalculatorPage> {
         controller: nameFieldController,
         decoration: buildDecoration("Your Project Name:"),
         keyboardType: TextInputType.name,
-
       ),
     );
   }
@@ -29,10 +29,12 @@ class CalculatorPageState extends State<CalculatorPage> {
   Widget buildTotalSizeField(){
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-      child: TextField(
+      child: TextField( 
+        controller: totalSizeValue,
         decoration: buildDecoration("Total Size (sq.ft.)"),
         keyboardType: TextInputType.number,
       ),
+      
     );
   }
 
@@ -40,6 +42,7 @@ class CalculatorPageState extends State<CalculatorPage> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
       child: TextField(
+        controller: mulchRateValue,
         decoration: buildDecoration("Mulch Application Rate (lbs/acre)"),
         keyboardType: TextInputType.number,
       ),
@@ -50,6 +53,7 @@ class CalculatorPageState extends State<CalculatorPage> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
       child: TextField(
+        controller: weightMulchValue,
         decoration: buildDecoration("Weight of Mulch (lbs)"),
         keyboardType: TextInputType.number,
       ),
@@ -59,23 +63,22 @@ class CalculatorPageState extends State<CalculatorPage> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
       child: TextField(
+        controller: mixingRateValue,
         decoration: buildDecoration("Mulch Mixing Rate (lbs/100 gal)"),
         keyboardType: TextInputType.number,
       ),
     );
   }
-
   Widget buildCapacityTankField(){
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
       child: TextField(
+        controller: capacityTankValue,
         decoration: buildDecoration("Capacity of Tank (gal)"),
         keyboardType: TextInputType.number,
       ),
     );
   }
-  
-
 
   @override
   Widget build(BuildContext context){
@@ -111,52 +114,65 @@ class CalculatorPageState extends State<CalculatorPage> {
     );
   }
   
+
   @override
   void initState(){
     super.initState();
     nameFieldController = TextEditingController();
+    totalSizeValue = TextEditingController();
+    mulchRateValue = TextEditingController();
+    weightMulchValue = TextEditingController();
+    mixingRateValue = TextEditingController();
+    capacityTankValue = TextEditingController();
     reset();
+    _reference = FirebaseDatabase.instance.reference().child("Projects");
   }
   @override
   void dispose(){
     nameFieldController.dispose();
+    totalSizeValue.dispose();
+    mulchRateValue.dispose();
+    weightMulchValue.dispose();
+    mixingRateValue.dispose();
+    capacityTankValue.dispose();
     super.dispose();
   }
 
   /// Actions
   void reset() {
-    nameFieldController.text = "";
-    totalSizeValue = 0;
-    mulchRateValue = 0;
-    weightMulchValue = 0;
-    mixingRateValue = 0;
-    capacityTankValue = 0;
+    nameFieldController.clear();
+    totalSizeValue.clear();
+    mulchRateValue.clear();
+    weightMulchValue.clear();
+    mixingRateValue.clear();
+    capacityTankValue.clear();
   
   }
-  void updateTotalSize(int value){
-    setState(() {
-      totalSizeValue = value;
-    });
+  
+  void saveProject(){
+    String name = nameFieldController.text;
+    String size = totalSizeValue.text;
+    String mulRV = mulchRateValue.text;
+    String weightMulch= mulchRateValue.text;
+    String mixRV = mixingRateValue.text;
+    String tank = capacityTankValue.text;
+    Map<String,String> project = {
+      'nameOfProject' : name,
+      'totalSizeValue' : size,
+      'mulchRateValue' : mulRV,
+      'weightMulchValue' : weightMulch,
+      'mixingRateValue' : mixRV,
+      'tank' : tank
+    };
+
+    _reference.push().set(project);
   }
-  void updateMulchRate(int value){
-    setState(() {
-      mulchRateValue = value;
-    });
-  }
-  void updateWeightMulch(int value){
-    setState(() {
-      weightMulchValue = value;
-    });
-  }
-  void updateMixingRate(int value){
-    setState(() {
-      mixingRateValue = value;
-    });
-  }
-  void updateCapacityTank(int value){
-    setState(() {
-      capacityTankValue = value;
-    });
+
+  void display(){
+    // final size = int.parse(totalSizeValue.text);
+
+    final bagsPerTank = (int.parse(capacityTankValue.text) / (int.parse(weightMulchValue.text) * 100)) * int.parse(mixingRateValue.text);
+    Text("$nameFieldController:\n $bagsPerTank bags per Tank");
   }
 
   Widget buildSubmitRow() {
@@ -167,14 +183,20 @@ class CalculatorPageState extends State<CalculatorPage> {
         children: <Widget>[
           ElevatedButton(
             child: Text("Submit"),
-            onPressed: () => SavedPage(), //Stores Project to new Page 
+            onPressed: () {
+              saveProject();
+            }, //Stores Project to new Page 
           ),
           SizedBox(
             width: 15.0,
           ),
           ElevatedButton(
             child: Text("Reset"),
-            onPressed: () => setState(reset),
+            onPressed: () {
+              setState(() {
+                reset();
+              });
+            } ,
           ),
           SizedBox(
             width: 15.0,
@@ -183,8 +205,4 @@ class CalculatorPageState extends State<CalculatorPage> {
       ),
     );
   }
-
-  // void storeProject(){
-
-  // }
 }

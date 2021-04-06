@@ -7,10 +7,11 @@ class CaltransApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Caltrans App',
     
       // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
+      //   primarySwatch: Colors.teal,
       //   visualDensity: VisualDensity.adaptivePlatformDensity,
       // ),
       home: HomePage());

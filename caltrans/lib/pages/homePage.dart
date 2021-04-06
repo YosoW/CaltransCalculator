@@ -28,63 +28,69 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context){
     return MaterialApp(
-    home: Scaffold(
-      body: 
-      PageView(
-        controller: pageController,
-        children: screen,
-        onPageChanged: onPageChanged,
-        physics: NeverScrollableScrollPhysics(),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.teal,
+        // brightness: Brightness.dark,
+        // visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-        
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: itemTapped,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: selectedIndex == 0 ? Colors.amber[400] : Colors.grey,
-            ), 
-            // ignore: deprecated_member_use
-            title: Text(
-              'Home',
-              style: TextStyle(
-                color: selectedIndex == 0 ? Colors.amber[400] : Colors.grey,
+      home: Scaffold(
+        body: 
+        PageView(
+          controller: pageController,
+          children: screen,
+          onPageChanged: onPageChanged,
+          physics: NeverScrollableScrollPhysics(),
+        ),
+          
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: itemTapped,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                color: selectedIndex == 0 ? Colors.amber[900] : Colors.grey,
+              ), 
+              // ignore: deprecated_member_use
+              title: Text(
+                'Home',
+                style: TextStyle(
+                  color: selectedIndex == 0 ? Colors.amber[900] : Colors.grey,
+                ),
               ),
             ),
-          ),
 
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.save,
-                color: selectedIndex == 1 ? Colors.amber[400] : Colors.grey,
-              ),
-            // ignore: deprecated_member_use
-            title: Text(
-              'Saved',
-              style: TextStyle(
-                color: selectedIndex == 1 ? Colors.amber[400] : Colors.grey,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.save,
+                  color: selectedIndex == 1 ? Colors.amber[900] : Colors.grey,
+                ),
+              // ignore: deprecated_member_use
+              title: Text(
+                'Saved',
+                style: TextStyle(
+                  color: selectedIndex == 1 ? Colors.amber[900] : Colors.grey,
+                ),
               ),
             ),
-          ),
 
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-                color: selectedIndex == 2 ? Colors.amber[400] : Colors.grey,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+                  color: selectedIndex == 2 ? Colors.amber[900] : Colors.grey,
+                ),
+              // ignore: deprecated_member_use
+              title: Text(
+                'Account',
+                style: TextStyle(
+                  color: selectedIndex == 2 ? Colors.amber[900] : Colors.grey,
+                ),  
               ),
-            // ignore: deprecated_member_use
-            title: Text(
-              'Account',
-              style: TextStyle(
-                color: selectedIndex == 2 ? Colors.amber[400] : Colors.grey,
-              ),  
-            ),
-          )
-        ],
-        
+            )
+          ],
+
+        ),
       ),
-    ),
     );
   }
 }

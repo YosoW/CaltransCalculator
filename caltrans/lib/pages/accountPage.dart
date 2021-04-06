@@ -10,18 +10,17 @@ class AccountPageState extends State<AccountPage> {
   
   @override
   Widget build(BuildContext context){
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Account Page'),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Account Page'),
+      ),
 
-        body: Column(
-          children: [
-            
-          ],
-        ),
-      ), 
+      body: Column(
+        children: [
+
+        ],
+      ),
+      
     );
   }
 }
