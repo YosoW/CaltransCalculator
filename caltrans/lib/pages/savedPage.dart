@@ -29,14 +29,14 @@ class SavedPageState extends State<SavedPage> {
         children: [
           Row(
             children: [
-              // Icon(
-              //   Icons.person,
-              //   color: Theme.of(context).primaryColor,
-              //   size: 20,
-              // ),
-              // SizedBox(
-              //   width: 6,
-              // ),
+              Icon(
+                Icons.account_box_outlined,
+                color: Theme.of(context).primaryColor,
+                size: 20,
+              ),
+              SizedBox(
+                width: 6,
+              ),
               Text(
                 projects['nameOfProject'],
                 style: TextStyle(
@@ -60,31 +60,82 @@ class SavedPageState extends State<SavedPage> {
                 width: 6,
               ),
               Text(
-                projects['mulchRateValue'],
+                projects['lbs of mulch'] ?? 'empty',
                 style: TextStyle(
                     fontSize: 16,
-                    color: Theme.of(context).accentColor,
+                    // color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.w600),
               ),
-              SizedBox(width: 15),
+              Text(' lbs of mulch'),
+              SizedBox(width: 6),
               // Icon(
               //   Icons.group_work,
               //   size: 20,
               // ),
+            ]
+          ),
+          Row(
+            children: [
               SizedBox(
                 width: 6,
               ),
               Text(
-                projects['weightMulchValue'],
+                projects['bags'] ?? 'empty',
                 style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600),
               ),
+              Text(' bags'),
+              SizedBox(
+                width: 6,
+              ),
             ],
           ),
-          SizedBox(
-            height: 15,
+          Row(
+            children: [
+              SizedBox(
+                width: 6,
+              ),
+              Text(
+                projects['bags per tank'] ?? 'empty',
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600),
+              ),
+              Text(
+                ' bags per tank'
+              ),
+              SizedBox(
+                width: 6,
+              ),
+            ],
           ),
+          Row( 
+            children: [
+              SizedBox(
+                width: 6,
+              ),
+              // Text(
+              //   projects['mixingRateValue'] ?? 'empty',
+              //   style: TextStyle(
+              //       fontSize: 16,
+              //       fontWeight: FontWeight.w600),
+              // ),
+              // SizedBox(
+              //   width: 6,
+              // ),
+              Text(
+                projects['tank'] ?? 'empty',
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600),
+              ),
+              Text(' tank loads'),
+            ],
+          ),
+          // SizedBox(
+          //   height: 15,
+          // ),
           // Row(
           //   mainAxisAlignment: MainAxisAlignment.end,
           //   children: [

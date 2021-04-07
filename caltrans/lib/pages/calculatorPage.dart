@@ -150,30 +150,75 @@ class CalculatorPageState extends State<CalculatorPage> {
   }
   
   void saveProject(){
+    var sqft = 43560;
+    var bag = 50;
+
+    var mulchAR = 1000;
+    
+    var acres = (int.parse(totalSizeValue.text) / sqft) * mulchAR; //int.parse(mulchRateValue.text);
+    var numOfBags = (int.parse(totalSizeValue.text) / sqft) * (int.parse(mulchRateValue.text)/bag);
+    var bagsPerTank = (int.parse(capacityTankValue.text) / (int.parse(weightMulchValue.text) * 100)) * double.parse(mixingRateValue.text);
+    var numTrucks = ((int.parse(totalSizeValue.text)/ sqft) * (int.parse(mulchRateValue.text) / int.parse(mixingRateValue.text))) / int.parse(capacityTankValue.text) * 100;
+
     String name = nameFieldController.text;
-    String size = totalSizeValue.text;
-    String mulRV = mulchRateValue.text;
-    String weightMulch= mulchRateValue.text;
+
+
+    String size = acres.truncate().toString();
+    String bags = numOfBags.truncate().toString();
+    String bPTank= bagsPerTank.truncate().toString();
+    
     String mixRV = mixingRateValue.text;
-    String tank = capacityTankValue.text;
+    String tank = numTrucks.truncate().toString();
+
     Map<String,String> project = {
-      'nameOfProject' : name,
-      'totalSizeValue' : size,
-      'mulchRateValue' : mulRV,
-      'weightMulchValue' : weightMulch,
+      'nameOfProject' : name, 
+      'lbs of mulch' : size,
+      'bags' : bags,
+      'bags per tank' : bPTank,
       'mixingRateValue' : mixRV,
       'tank' : tank
     };
-
+    // String name = nameFieldController.text;
+    // String size = totalSizeValue.text;
+    // String mulRV = mulchRateValue.text;
+    // String weightMulch= mulchRateValue.text;
+    // String mixRV = mixingRateValue.text;
+    // String tank = capacityTankValue.text;
+    // Map<String,String> project = {
+    //   'nameOfProject' : name,
+    //   'totalSizeValue' : size,
+    //   'mulchRateValue' : mulRV,
+    //   'weightMulchValue' : weightMulch,
+    //   'mixingRateValue' : mixRV,
+    //   'tank' : tank
+    // };
     _reference.push().set(project);
   }
 
-  void display(){
-    // final size = int.parse(totalSizeValue.text);
+  // void display(){
+  //   int sqft = 43560;
+  //   int bag = 50;
 
-    final bagsPerTank = (int.parse(capacityTankValue.text) / (int.parse(weightMulchValue.text) * 100)) * int.parse(mixingRateValue.text);
-    Text("$nameFieldController:\n $bagsPerTank bags per Tank");
-  }
+  //   int mulchAR = 1000;
+  //   double acres = (int.parse(totalSizeValue.text) / sqft) * mulchAR; //int.parse(mulchRateValue.text);
+  //   final numOfBags = (int.parse(totalSizeValue.text) / sqft) * (int.parse(mulchRateValue.text)/bag);
+
+  //   final bagsPerTank = (int.parse(capacityTankValue.text) / (int.parse(weightMulchValue.text) * 100)) * int.parse(mixingRateValue.text);
+
+  //   Text( 
+  //   "Total Mulch Needed for project"
+  //   "$acres lbs of mulch $numOfBags bags\n"
+  //   "$bagsPerTank bags per Tank \n"
+  //   );
+  // }
+
+  // Widget buildDisply(){
+    
+  //   return Container(
+  //     child: Text("sfpojsdpf"
+  //     ),
+  //   );
+  // }
 
   Widget buildSubmitRow() {
     return Container(
@@ -184,7 +229,9 @@ class CalculatorPageState extends State<CalculatorPage> {
           ElevatedButton(
             child: Text("Submit"),
             onPressed: () {
-              saveProject();
+              setState(() {
+                saveProject();
+              });
             }, //Stores Project to new Page 
           ),
           SizedBox(

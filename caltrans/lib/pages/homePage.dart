@@ -31,6 +31,11 @@ class HomePageState extends State<HomePage> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.teal,
+        // accentColor: Colors.teal,
+        // primaryTextTheme: Theme.of(context).textTheme.apply(
+        //   bodyColor: Colors.white,
+        //   displayColor: Colors.deepOrangeAccent,
+        // ),
         // brightness: Brightness.dark,
         // visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
