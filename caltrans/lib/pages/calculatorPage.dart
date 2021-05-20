@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class CalculatorPage extends StatefulWidget{
   CalculatorPage({Key key}) : super(key: key);
@@ -19,6 +20,7 @@ class CalculatorPageState extends State<CalculatorPage> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
       child: TextField(
+        style: TextStyle(fontSize: 18, color: Colors.white),
         controller: nameFieldController,
         decoration: buildDecoration("Your Project Name:"),
         keyboardType: TextInputType.name,
@@ -30,6 +32,7 @@ class CalculatorPageState extends State<CalculatorPage> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
       child: TextField( 
+        style: TextStyle(fontSize: 18, color: Colors.white),
         controller: totalSizeValue,
         decoration: buildDecoration("Total Size (sq.ft.)"),
         keyboardType: TextInputType.number,
@@ -42,6 +45,7 @@ class CalculatorPageState extends State<CalculatorPage> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
       child: TextField(
+        style: TextStyle(fontSize: 18, color: Colors.white),
         controller: mulchRateValue,
         decoration: buildDecoration("Mulch Application Rate (lbs/acre)"),
         keyboardType: TextInputType.number,
@@ -53,6 +57,7 @@ class CalculatorPageState extends State<CalculatorPage> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
       child: TextField(
+        style: TextStyle(fontSize: 18, color: Colors.white),
         controller: weightMulchValue,
         decoration: buildDecoration("Weight of Mulch (lbs)"),
         keyboardType: TextInputType.number,
@@ -63,6 +68,7 @@ class CalculatorPageState extends State<CalculatorPage> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
       child: TextField(
+        style: TextStyle(fontSize: 18, color: Colors.white),
         controller: mixingRateValue,
         decoration: buildDecoration("Mulch Mixing Rate (lbs/100 gal)"),
         keyboardType: TextInputType.number,
@@ -73,6 +79,7 @@ class CalculatorPageState extends State<CalculatorPage> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
       child: TextField(
+        style: TextStyle(fontSize: 18, color: Colors.white),
         controller: capacityTankValue,
         decoration: buildDecoration("Capacity of Tank (gal)"),
         keyboardType: TextInputType.number,
@@ -83,22 +90,23 @@ class CalculatorPageState extends State<CalculatorPage> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
+      backgroundColor: Colors.blueGrey,
       appBar: AppBar(
-        title: Text('Calculator Page'),
+        title: Text('Calculator'),
       ),
       body: Center(
         child: 
         Column(crossAxisAlignment:
          CrossAxisAlignment.stretch,
-         children: <Widget>[
-          buildNameTextField(), 
-          buildTotalSizeField(),
-          buildMulchRateField(),
-          buildWeightMulchField(),
-          buildMixingRateField(),
-          buildCapacityTankField(),
-          buildSubmitRow(),
-         ],
+          children: <Widget>[
+            buildNameTextField(), 
+            buildTotalSizeField(),
+            buildMulchRateField(),
+            buildWeightMulchField(),
+            buildMixingRateField(),
+            buildCapacityTankField(),
+            buildSubmitRow(),
+          ],
         ),
       ),
     );
@@ -107,7 +115,12 @@ class CalculatorPageState extends State<CalculatorPage> {
 
   InputDecoration buildDecoration(String label){
     return InputDecoration(
+      // fillColor: Colors.white,
       labelText: label,
+      labelStyle: TextStyle(
+        color: Colors.white,
+        fontSize: 18.0
+      ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(14.0)),
       ),
@@ -153,22 +166,21 @@ class CalculatorPageState extends State<CalculatorPage> {
     var sqft = 43560;
     var bag = 50;
 
-    var mulchAR = 1000;
-    
-    var acres = (int.parse(totalSizeValue.text) / sqft) * mulchAR; //int.parse(mulchRateValue.text);
+  
+    var acres = (int.parse(totalSizeValue.text) / sqft) * int.parse(mulchRateValue.text);
     var numOfBags = (int.parse(totalSizeValue.text) / sqft) * (int.parse(mulchRateValue.text)/bag);
-    var bagsPerTank = (int.parse(capacityTankValue.text) / (int.parse(weightMulchValue.text) * 100)) * double.parse(mixingRateValue.text);
+    var bagsPerTank = ((((int.parse(capacityTankValue.text) / (int.parse(weightMulchValue.text) * 100)) * double.parse(mixingRateValue.text)).ceil()/ 4 ) /100.00 ) * 100;
     var numTrucks = ((int.parse(totalSizeValue.text)/ sqft) * (int.parse(mulchRateValue.text) / int.parse(mixingRateValue.text))) / int.parse(capacityTankValue.text) * 100;
 
     String name = nameFieldController.text;
 
 
     String size = acres.truncate().toString();
-    String bags = numOfBags.truncate().toString();
+    String bags = numOfBags.ceilToDouble().toString();
     String bPTank= bagsPerTank.truncate().toString();
     
     String mixRV = mixingRateValue.text;
-    String tank = numTrucks.truncate().toString();
+    String tank = numTrucks.toStringAsFixed(2);
 
     Map<String,String> project = {
       'nameOfProject' : name, 
@@ -177,6 +189,7 @@ class CalculatorPageState extends State<CalculatorPage> {
       'bags per tank' : bPTank,
       'mixingRateValue' : mixRV,
       'tank' : tank
+
     };
     // String name = nameFieldController.text;
     // String size = totalSizeValue.text;
@@ -225,20 +238,45 @@ class CalculatorPageState extends State<CalculatorPage> {
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           ElevatedButton(
-            child: Text("Submit"),
+            child: Text("Save Project"),
+
             onPressed: () {
               setState(() {
                 saveProject();
               });
-            }, //Stores Project to new Page 
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  action: SnackBarAction(
+                    label: 'Saved',
+                    
+                    onPressed: () {
+                      setState(() {
+                        saveProject();
+                      });
+                    }, //Stores Project to new Page 
+                  ),
+                  content: const Text('Project Saved!'),
+                  duration: const Duration(milliseconds: 1500),
+                  width: 280.0, // Width of the SnackBar.
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8.0, // Inner padding for SnackBar content.
+                  ),
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              );
+            }
           ),
           SizedBox(
             width: 15.0,
           ),
           ElevatedButton(
-            child: Text("Reset"),
+            child: Text("Clear"),
             onPressed: () {
               setState(() {
                 reset();

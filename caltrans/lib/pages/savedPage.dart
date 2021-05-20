@@ -1,14 +1,38 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_share/flutter_share.dart';
+// import 'package:documents_picker/documents_picker.dart';
+// import 'package:cupertino_icons/cupertino_icons.dart';
+import 'package:share/share.dart';
 import 'package:flutter/material.dart';
 
 class SavedPage extends StatefulWidget{
-  @override 
+
+
+  // Future<void> sharFile() async{
+  //   List<dynamic> docs = await DocumentsPicker.pickDocuments;
+  //   if(docs == null || docs.isEmpty) return null;
+    
+  //   await FlutterShare.shareFile(
+  //     title: 'Example Share',
+  //     text: 'Example Share text',
+  //     filePath: docs[0] as String,
+  //   );
+  // }
+  @override  
   SavedPageState createState() => SavedPageState();
 } 
  
 class SavedPageState extends State<SavedPage> {
-
+  Future<void> share() async{
+    await FlutterShare.share(
+      title: 'Example share',
+      text: 'Share Projects',
+      linkUrl: 'https://google.com/',
+      chooserTitle: 'Example Chooser'
+    );
+  }
   
   Query _reference;
   DatabaseReference reference = FirebaseDatabase.instance.reference().child("Projects");
@@ -30,7 +54,7 @@ class SavedPageState extends State<SavedPage> {
           Row(
             children: [
               Icon(
-                Icons.account_box_outlined,
+                CupertinoIcons.doc,
                 color: Theme.of(context).primaryColor,
                 size: 20,
               ),
@@ -198,27 +222,55 @@ class SavedPageState extends State<SavedPage> {
       ),
     );
   }
+  Widget buildShare(){
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+    child: 
+      ElevatedButton.icon(
+        label: Text('Share'),
+        icon: Icon(Icons.share_sharp),
+        onPressed:() => Share.share("Testing", subject: "test"),
+
+        //   controller: weightMulchValue,
+        // decoration: buildDecoration("Weight of Mulch (lbs)"),
+        // keyboardType: TextInputType.number,
+      ),
+      // ),
+    );
+  }
 
   @override
   Widget build(BuildContext context){
     return Scaffold(
+        backgroundColor: Colors.blueGrey,
         appBar: AppBar(
           title: Text('Saved Projects'),
         ),
         body:
          Container(
           height: double.infinity,
-           child: FirebaseAnimatedList(
-             query: _reference,
-             itemBuilder: (BuildContext context, DataSnapshot snapshot,
-             Animation<double> animation, int index){
-               Map project = snapshot.value;
-               project['key'] = snapshot.key;
-               return buildProjectItem(projects: project);
-             }
-
+           child: new Column(
+            children: <Widget>[
+              Flexible(
+                child: 
+                  FirebaseAnimatedList(
+                    query: _reference,
+                    itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                    Animation<double> animation, int index){
+                      Map project = snapshot.value;
+                      project['key'] = snapshot.key;
+                      return buildProjectItem(projects: project);
+                  },
+                ),
+              ),
+              buildShare(),
+            ],
            ),
-        ),
+          ),
+
     );
   }
+
+
+  
 }

@@ -9,11 +9,17 @@ class CaltransApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Caltrans App',
-    
+      // themeMode: ThemeMode.system,
+      // theme: GalleryThemeData.lightThemeData.copyWith(
+      //   platform: GalleryOptions.of(context).platform,
+      // ),
       // theme: ThemeData(
       //   primarySwatch: Colors.teal,
       //   visualDensity: VisualDensity.adaptivePlatformDensity,
       // ),
-      home: HomePage());
+      // 
+      // 
+      home: HomePage(),
+    );
   }
 }

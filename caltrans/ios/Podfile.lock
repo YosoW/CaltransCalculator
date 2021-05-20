@@ -24,6 +24,10 @@ PODS:
     - FirebaseCore (~> 7.0)
     - leveldb-library (~> 1.22)
   - Flutter (1.0.0)
+  - flutter_share (0.0.1):
+    - Flutter
+  - geolocator (6.2.0):
+    - Flutter
   - GoogleDataTransport (8.3.1):
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30907.0)
@@ -33,17 +37,25 @@ PODS:
   - GoogleUtilities/Logger (7.3.1):
     - GoogleUtilities/Environment
   - leveldb-library (1.22.1)
+  - location (0.0.1):
+    - Flutter
   - nanopb (2.30907.0):
     - nanopb/decode (= 2.30907.0)
     - nanopb/encode (= 2.30907.0)
   - nanopb/decode (2.30907.0)
   - nanopb/encode (2.30907.0)
   - PromisesObjC (1.2.12)
+  - share (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - Flutter (from `Flutter`)
+  - flutter_share (from `.symlinks/plugins/flutter_share/ios`)
+  - geolocator (from `.symlinks/plugins/geolocator/ios`)
+  - location (from `.symlinks/plugins/location/ios`)
+  - share (from `.symlinks/plugins/share/ios`)
 
 SPEC REPOS:
   trunk:
@@ -64,6 +76,14 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_database/ios"
   Flutter:
     :path: Flutter
+  flutter_share:
+    :path: ".symlinks/plugins/flutter_share/ios"
+  geolocator:
+    :path: ".symlinks/plugins/geolocator/ios"
+  location:
+    :path: ".symlinks/plugins/location/ios"
+  share:
+    :path: ".symlinks/plugins/share/ios"
 
 SPEC CHECKSUMS:
   Firebase: 26223c695fe322633274198cb19dca8cb7e54416
@@ -73,11 +93,15 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: 3d36e05da74cb8b7ce30e6594a8f201b982c725c
   FirebaseDatabase: 22199cb121a527ae59df646d61426fbb12f5627a
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  flutter_share: 4be0208963c60b537e6255ed2ce1faae61cd9ac2
+  geolocator: f5e3de65e241caba7ce3e8a618803387bda73384
   GoogleDataTransport: 8b0e733ea77c9218778e5a9e34ba9508b8328939
   GoogleUtilities: e1d9ed4e544fc32a93e00e721400cbc3f377200d
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
+  location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
+  share: 0b2c3e82132f5888bccca3351c504d0003b3b410
 
 PODFILE CHECKSUM: fe0e1ee7f3d1f7d00b11b474b62dd62134535aea
 
